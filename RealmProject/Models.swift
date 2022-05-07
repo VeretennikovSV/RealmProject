@@ -11,6 +11,8 @@ import RealmSwift
 class Tasks: Object {
     @Persisted var name = ""
     @Persisted var date = Date()
+    @Persisted var isAllDone = false
+    @Persisted var tasksLeft = 0
     @Persisted var tasks = List<Task>()
 }
 

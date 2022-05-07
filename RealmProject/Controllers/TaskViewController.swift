@@ -56,6 +56,10 @@ extension TaskViewController {
         2
     }
     
+    override func tableView(_ tableView: UITableView, selectionFollowsFocusForRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         section == 0 ? "Completed" : "To do"
     }

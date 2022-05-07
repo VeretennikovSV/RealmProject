@@ -10,11 +10,11 @@ import RealmSwift
 
 class TaskViewController: UITableViewController {
     
-    var tasks: Tasks!
-    let cellId = "Task"
-    
     private var completedTasks: Results<Task>!
     private var uncompletedTasks: Results<Task>!
+    
+    var tasks: Tasks!
+    let cellId = "Task"
     
     var delegate: CheckLeftTasks!
     

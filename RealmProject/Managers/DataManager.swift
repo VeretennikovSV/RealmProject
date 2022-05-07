@@ -16,14 +16,12 @@ class DataManager {
             let shopingList = Tasks()
             shopingList.name = "What to buy"
             
-            
             let productToBuy = Task()
             productToBuy.name = "Apple"
             productToBuy.note = "2 kg"
             
             shopingList.tasks.append(productToBuy)
             
-            print(shopingList)
             
             let filmsToWatch = Tasks()
             
@@ -34,8 +32,6 @@ class DataManager {
             film.note = "Hard"
             
             filmsToWatch.tasks.append(film)
-            
-            print(filmsToWatch)
             
             DispatchQueue.main.async {
                 StorageManager.shared.save(filmsToWatch)

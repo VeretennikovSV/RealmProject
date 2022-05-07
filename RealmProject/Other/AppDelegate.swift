@@ -19,6 +19,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = UINavigationController(rootViewController: TasksListView())
         return true
     }
-
 }
 

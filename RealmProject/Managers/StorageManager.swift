@@ -55,6 +55,7 @@ class StorageManager {
             tasks.tasks.forEach { task in
                 task.isDone = true
             }
+            tasks.tasksLeft = 0
         }
     }
     
@@ -108,7 +109,7 @@ class StorageManager {
                 completion()
             }
         } catch {
-            print(1)
+            print("Can't enter in realm")
         }
     }
     

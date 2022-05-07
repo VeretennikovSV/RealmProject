@@ -28,6 +28,7 @@ class TasksListView: UIViewController, UITableViewDataSource, UITableViewDelegat
         currentRow = 0
         while currentRow < uncompleted.count {
             rows.append(IndexPath(row: currentRow, section: 1))
+            currentRow += 1
         }
         return rows
     }
@@ -145,12 +146,14 @@ extension TasksListView {
                     at: indexPath,
                     to: destination)
                 self.tableView.reloadRows(at: [destination], with: .automatic)
+                self.tableView.reloadData()
             } else {
                 let destination = IndexPath(row: self.completed.count - 1, section: 0)
                 self.tableView.moveRow(
                     at: indexPath,
                     to: destination)
                 self.tableView.reloadRows(at: [destination], with: .automatic)
+                self.tableView.reloadData()
             }
         }
         
@@ -239,7 +242,7 @@ extension TasksListView {
         navigationController?.navigationBar.scrollEdgeAppearance = navBarApearence
     }
     
-    func showAlert(withTask task: Tasks? = nil, with text: String, indexPath: IndexPath? = nil) {
+    private func showAlert(withTask task: Tasks? = nil, with text: String, indexPath: IndexPath? = nil) {
         let alert = AlertController.createAlert(with: text)
         
         alert.action(with: task) {
@@ -274,7 +277,7 @@ extension TasksListView {
         
         listsOfTasks = realm.objects(Tasks.self).sorted(byKeyPath: "\(howToSort)", ascending: true)
         filter()
-        tableView.reloadSections(sections as IndexSet, with: .automatic)
+        tableView.reloadRows(at: currentRows, with: .automatic)
     }
     
     @objc private func segmentedControllSwitched(_ sender: UISegmentedControl) {

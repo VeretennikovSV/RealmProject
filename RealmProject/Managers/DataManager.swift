@@ -41,6 +41,5 @@ class DataManager {
             }
         }
     }
-    
     private init(){}
 }

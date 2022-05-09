@@ -22,7 +22,9 @@ class AlertController: UIAlertController {
             if let task = task {
                 StorageManager.shared.edit(task: task, with: text)
             } else {
-                StorageManager.shared.save(with: text)
+                let task = Tasks()
+                task.name = text
+                StorageManager.shared.save(with: task)
             }
             completion()
         }

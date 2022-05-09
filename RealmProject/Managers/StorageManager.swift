@@ -19,10 +19,8 @@ class StorageManager {
         }
     }
     
-    func save(with string: String) {
+    func save(with task: Tasks) {
         write {
-            let task = Tasks()
-            task.name = string
             realm.add(task)
         }
     }
@@ -87,12 +85,6 @@ class StorageManager {
     func tasksLeft(in tasks: Tasks, _ count: Int) {
         write {
             tasks.tasksLeft = count
-        }
-    }
-    
-    func sortAlphathet(tasks: Tasks) {
-        write {
-            
         }
     }
     

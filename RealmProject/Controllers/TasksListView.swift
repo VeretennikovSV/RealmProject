@@ -37,8 +37,7 @@ class TasksListView: UIViewController, UITableViewDataSource, UITableViewDelegat
         guard let barHeight = navigationController?.navigationBar.frame.height else { return 0 }
         return barHeight
     }
-    
-    let realm = try! Realm()
+
     var listsOfTasks: Results<Tasks>!
     var completed: Results<Tasks>!
     var uncompleted: Results<Tasks>!
@@ -144,21 +143,15 @@ extension TasksListView {
             isDone(true)
             StorageManager.shared.allDone(in: tasks)
             self.filter()
-            if indexPath.section == 0 {
-                let destination = IndexPath(row: self.uncompleted.count - 1, section: 1)
-                self.tableView.moveRow(
-                    at: indexPath,
-                    to: destination)
-                self.tableView.reloadRows(at: [destination], with: .automatic)
-                self.tableView.reloadData()
-            } else {
-                let destination = IndexPath(row: self.completed.count - 1, section: 0)
-                self.tableView.moveRow(
-                    at: indexPath,
-                    to: destination)
-                self.tableView.reloadRows(at: [destination], with: .automatic)
-                self.tableView.reloadData()
-            }
+            let destination = indexPath.section == 0
+            ? IndexPath(row: self.uncompleted.count - 1, section: 1)
+            : IndexPath(row: self.completed.count - 1, section: 0)
+            
+            self.tableView.moveRow(
+                at: indexPath,
+                to: destination)
+            self.tableView.reloadRows(at: [destination], with: .automatic)
+            self.tableView.reloadData()
         }
         
         tasks.isAllDone ? (allDone.backgroundColor = #colorLiteral(red: 0.06149461865, green: 0.6421864629, blue: 0, alpha: 1)) : (allDone.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1))
@@ -182,7 +175,8 @@ extension TasksListView {
 //MARK: Set UI
 extension TasksListView {
     private func setEveryThing() {
-        let segment = UISegmentedControl(items: ["One", "Two"])
+        
+        let segment = UISegmentedControl(items: ["A-Z", "Date"])
         
         segment.sizeToFit()
         segment.tintColor = .black
@@ -204,6 +198,14 @@ extension TasksListView {
         segment.addTarget(self, action: #selector(segmentedControllSwitched(_:)), for: .valueChanged)
         
         self.segment = segment
+        
+        if UserDefaults.standard.bool(forKey: "segment") {
+            self.segment.selectedSegmentIndex = 0
+            howTo(text: "name")
+        } else {
+            self.segment.selectedSegmentIndex = 1
+            howTo(text: "date")
+        }
         
         let tableView = UITableView()
         tableView.sizeToFit()
@@ -274,20 +276,23 @@ extension TasksListView {
         StorageManager.shared.tasksLeft(in: tasks, tasksLeft)
     }
     
-    
     private func sortBy(_ howToSort: String) {
-        let range = NSMakeRange(0, tableView.numberOfSections)
-        let sections = NSIndexSet(indexesIn: range)
         
-        listsOfTasks = realm.objects(Tasks.self).sorted(byKeyPath: "\(howToSort)", ascending: true)
+        howTo(text: howToSort)
+        
         filter()
         tableView.reloadRows(at: currentRows, with: .automatic)
     }
     
+    private func howTo(text: String) {
+        listsOfTasks = StorageManager.shared.realm.objects(Tasks.self).sorted(byKeyPath: "\(text)", ascending: true)
+    }
+    
     @objc private func segmentedControllSwitched(_ sender: UISegmentedControl) {
-        switch sender.selectedSegmentIndex {
-            case 0: sortBy("name")
-            default: sortBy("date")
-        }
+        (sender.selectedSegmentIndex == 0) ? sortBy("name") : sortBy("date")
+        
+        (sender.selectedSegmentIndex == 0)
+        ? UserDefaults.standard.set(true, forKey: "segment")
+        : UserDefaults.standard.set(false, forKey: "segment")
     }
 }

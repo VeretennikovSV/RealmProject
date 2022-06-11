@@ -1,5 +1,5 @@
 //
-//  TaskViewController.swift
+//  TaskView.swift
 //  RealmProject
 //
 //  Created by Сергей Веретенников on 03/05/2022.
@@ -8,50 +8,54 @@
 import UIKit
 import RealmSwift
 
-class TaskViewController: UITableViewController {
+class TaskView: UITableViewController {
     
     private var completedTasks: Results<Task>!
     private var uncompletedTasks: Results<Task>!
     
+    var viewModel: TaskViewModel! {
+        didSet {
+            self.title = viewModel.tasks.name
+            viewModel.filterTasks()
+            self.tableView.reloadData()
+        }
+    }
+    
     var tasks: Tasks!
-    let cellId = "Task"
     
     var delegate: CheckLeftTasks!
     
+    private let cellId = "Task"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        viewModel = TaskViewModel(tasks: tasks)
         
         navigationController?.navigationBar.prefersLargeTitles = false
         
         navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTask))]
         
-        self.title = tasks.name
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         
-        filterTasks()
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        delegate.check(tasks: tasks, tasksLeft: uncompletedTasks.count)
+        delegate.check(tasks: viewModel.tasks, tasksLeft: viewModel.uncompletedTasks.count)
     }
     
     private func filterTasks() {
-        completedTasks = tasks.tasks.filter("isDone = true")
-        uncompletedTasks = tasks.tasks.filter("isDone = false")
+        viewModel.filterTasks()
     }
     
     @objc private func addNewTask() {
         showAlert(named: "Add new note")
     }
-    
-    func setTasks(tasks: Tasks) {
-        self.tasks = tasks
-    }
 }
 
 //MARK: TableView delegate, DataSourse
-extension TaskViewController {
+extension TaskView {
     override func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
@@ -61,22 +65,18 @@ extension TaskViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? "Completed" : "To do"
+        viewModel.titleOfSec(in: section)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? completedTasks.count : uncompletedTasks.count
+        viewModel.numberOfRows(in: section)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        var content = cell.defaultContentConfiguration()
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CellForTasks
+
+        cell.viewModel = viewModel.cellForRowAt(indexPath: indexPath)
         
-        let task = indexPath.section == 0 ? completedTasks[indexPath.row] : uncompletedTasks[indexPath.row]
-        content.text = task.name
-        content.secondaryText = task.note
-        
-        cell.contentConfiguration = content
         return cell
     }
     
@@ -84,13 +84,13 @@ extension TaskViewController {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let task = indexPath.section == 0 ? completedTasks[indexPath.row] : uncompletedTasks[indexPath.row]
+        let task = indexPath.section == 0 ? viewModel.completedTasks[indexPath.row] : viewModel.uncompletedTasks[indexPath.row]
         
         showAlert(named: "Edit Note", withTask: task, at: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let task = indexPath.section == 0 ? completedTasks[indexPath.row] : uncompletedTasks[indexPath.row]
+        let task = indexPath.section == 0 ? viewModel.completedTasks[indexPath.row] : viewModel.uncompletedTasks[indexPath.row]
         
         let delete = UIContextualAction(style: .normal, title: "delte") { _, _, isDone in
             isDone(true)
@@ -111,17 +111,18 @@ extension TaskViewController {
             if indexPath.section == 0 {
                 self.tableView.moveRow(
                     at: indexPath,
-                    to: IndexPath(row: self.uncompletedTasks.count - 1, section: 1))
+                    to: IndexPath(row: self.viewModel.uncompletedTasks.count - 1, section: 1))
             } else {
                 self.tableView.moveRow(
                     at: indexPath,
-                    to: IndexPath(row: self.completedTasks.count - 1, section: 0))
+                    to: IndexPath(row: self.viewModel.completedTasks.count - 1, section: 0))
             }
+            
             //Проверка готовности всех заданий
             if self.uncompletedTasks.isEmpty {
-                StorageManager.shared.allNotesDone(in: self.tasks)
+                StorageManager.shared.allNotesDone(in: self.viewModel.tasks)
             } else {
-                StorageManager.shared.notAllNotesDone(in: self.tasks)
+                StorageManager.shared.notAllNotesDone(in: self.viewModel.tasks)
             }
         }
         
@@ -145,10 +146,10 @@ extension TaskViewController {
 }
 
 //MARK: AlertController
-extension TaskViewController {
+extension TaskView {
     private func showAlert(named string: String, withTask task: Task? = nil, at indexPath: IndexPath? = nil) {
         let alert = AlertController.createAlert(with: string)
-        alert.action(with: task, in: tasks) {
+        alert.action(with: task, in: viewModel.tasks) {
             guard let _ = task else {
                 self.tableView.insertRows(
                     at: [IndexPath(row: self.uncompletedTasks.count - 1, section: 1)],

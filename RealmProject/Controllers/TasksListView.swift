@@ -117,8 +117,9 @@ extension TasksListView {
         
         //        showAlert(withTask: tasks, string: tasks.name, with: "Edit", indexPath: indexPath)
         
-        let taskVC = TaskViewController()
-        taskVC.setTasks(tasks: tasks)
+        
+        let taskVC = TaskView()
+        taskVC.tasks = tasks
         taskVC.delegate = self
         show(taskVC, sender: nil)
     }

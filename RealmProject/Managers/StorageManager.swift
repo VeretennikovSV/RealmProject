@@ -72,7 +72,9 @@ class StorageManager {
     func editNote(in task: Task, with text: String, and note: String?) {
         write {
             task.name = text
+            print(task.name)
             task.note = note ?? ""
+            print(task.note)
         }
     }
     

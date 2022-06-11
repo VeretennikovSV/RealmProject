@@ -8,40 +8,47 @@
 import UIKit
 
 class CellForTasks: UITableViewCell {
+    
     var viewModel: CellForTaskProtocol! {
         didSet {
-            setAll()
+            text.text = viewModel.name
+            text.font = .systemFont(ofSize: 17)
+            text.textColor = .black
+            text.frame.size.height = 20
+            
+            secondaryText.text = viewModel.note
+            secondaryText.font = .systemFont(ofSize: 14)
+            secondaryText.textColor = .gray
+            secondaryText.frame.size.height = 20
         }
     }
     
-    private var text: UILabel {
-        let text = UILabel()
-        text.font = .systemFont(ofSize: 13)
-        text.textColor = .black
-        text.textAlignment = .left
-        return text
-    }
-    
-    private var secondaryText: UILabel {
-        let text = UILabel()
-        text.font = .systemFont(ofSize: 11)
-        text.textColor = .gray
-        text.textAlignment = .left
-        return text
-    }
+    private let stackView = UIStackView()
+    private let text = UILabel()
+    private let secondaryText = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubview(text)
-        addSubview(secondaryText)
-        
-        text.ancor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 5, paddingLeft: 10, paddingBottom: 5, paddingRight: 10, width: frame.size.width / 2, height: 20, enableInsets: false)
-        secondaryText.ancor(top: text.bottomAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: frame.size.width / 2, height: 20, enableInsets: false)
+        setUI()
+        setupConstraints()
     }
     
-    private func setAll() {
-        self.text.text = viewModel.name
-        self.secondaryText.text = viewModel.note
+    private func setUI() {
+        stackView.addArrangedSubview(text)
+        stackView.addArrangedSubview(secondaryText)
+        stackView.spacing = frame.height * 0.01
+        stackView.alignment = .leading
+        stackView.axis = .vertical
+        addSubview(stackView)
+    }
+    
+    private func setupConstraints() {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: frame.width * 0.07),
+            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: frame.height * 0.05)
+        ])
     }
     
     required init?(coder: NSCoder) {

@@ -36,5 +36,113 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "973FA80B-8433-4FAD-B91D-5390921B4629"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RealmProject/TaskView/CellForTasks.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "12"
+            endingLineNumber = "12"
+            landmarkName = "viewModel"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "973FA80B-8433-4FAD-B91D-5390921B4629 - 47333621ca152d69"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RealmProject.CellForTasks.viewModel.getter : Swift.Optional&lt;RealmProject.CellForTaskProtocol&gt;"
+                  moduleName = "RealmProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sergejveretennikov/Library/Mobile%20Documents/com~apple~CloudDocs/Desktop/SwiftUI/Realm/RealmProject/RealmProject/TaskView/CellForTasks.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "85">
+               </Location>
+               <Location
+                  uuid = "973FA80B-8433-4FAD-B91D-5390921B4629 - e6b2cf5292278d75"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RealmProject.CellForTasks.viewModel.setter : Swift.Optional&lt;RealmProject.CellForTaskProtocol&gt;"
+                  moduleName = "RealmProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sergejveretennikov/Library/Mobile%20Documents/com~apple~CloudDocs/Desktop/SwiftUI/Realm/RealmProject/RealmProject/TaskView/CellForTasks.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "119">
+               </Location>
+               <Location
+                  uuid = "973FA80B-8433-4FAD-B91D-5390921B4629 - 61e278f5c693b564"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RealmProject.CellForTasks.viewModel.modify : Swift.Optional&lt;RealmProject.CellForTaskProtocol&gt;"
+                  moduleName = "RealmProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sergejveretennikov/Library/Mobile%20Documents/com~apple~CloudDocs/Desktop/SwiftUI/Realm/RealmProject/RealmProject/TaskView/CellForTasks.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "973FA80B-8433-4FAD-B91D-5390921B4629 - 10035216e0c4f5d8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RealmProject.CellForTasks.viewModel.modify : Swift.Optional&lt;RealmProject.CellForTaskProtocol&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "RealmProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sergejveretennikov/Library/Mobile%20Documents/com~apple~CloudDocs/Desktop/SwiftUI/Realm/RealmProject/RealmProject/TaskView/CellForTasks.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "17">
+               </Location>
+               <Location
+                  uuid = "973FA80B-8433-4FAD-B91D-5390921B4629 - 8408fbae3d30485d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RealmProject.CellForTasks.init(style: __C.UITableViewCellStyle, reuseIdentifier: Swift.Optional&lt;Swift.String&gt;) -&gt; RealmProject.CellForTasks"
+                  moduleName = "RealmProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sergejveretennikov/Library/Mobile%20Documents/com~apple~CloudDocs/Desktop/SwiftUI/Realm/RealmProject/RealmProject/TaskView/CellForTasks.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "140">
+               </Location>
+               <Location
+                  uuid = "973FA80B-8433-4FAD-B91D-5390921B4629 - dfdc539e291acb41"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RealmProject.CellForTasks.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;RealmProject.CellForTasks&gt;"
+                  moduleName = "RealmProject"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sergejveretennikov/Library/Mobile%20Documents/com~apple~CloudDocs/Desktop/SwiftUI/Realm/RealmProject/RealmProject/TaskView/CellForTasks.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "74">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

@@ -36,7 +36,7 @@ class TaskView: UITableViewController {
         
         navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewTask))]
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(CellForTasks.self, forCellReuseIdentifier: cellId)
         
         
     }
@@ -74,7 +74,7 @@ extension TaskView {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! CellForTasks
-
+        
         cell.viewModel = viewModel.cellForRowAt(indexPath: indexPath)
         
         return cell
@@ -84,9 +84,9 @@ extension TaskView {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let task = indexPath.section == 0 ? viewModel.completedTasks[indexPath.row] : viewModel.uncompletedTasks[indexPath.row]
+        let taskNote = viewModel.showAlert(indexPath: indexPath)
         
-        showAlert(named: "Edit Note", withTask: task, at: indexPath)
+        AddAlert(taskNote: taskNote, indexPath: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -147,6 +147,35 @@ extension TaskView {
 
 //MARK: AlertController
 extension TaskView {
+    
+    
+    private func AddAlert(taskNote: (String, String?), indexPath: IndexPath) {
+        let alert = UIAlertController(title: "Edit task", message: "Change something", preferredStyle: .alert)
+        
+        alert.addTextField { tf in
+            tf.text = taskNote.0
+            tf.placeholder = "Task"
+        }
+        
+        alert.addTextField { tf in
+            tf.text = taskNote.1
+            tf.placeholder = "Note"
+        }
+        
+        let okAcc = UIAlertAction(title: "Ok", style: .default) { [unowned self] _ in
+            viewModel.saveOldTask(indexPath: indexPath, alert.textFields?[0].text ?? "", alert.textFields?[1].text) {
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
+        
+        let cancellAcc = UIAlertAction(title: "Cancel", style: .destructive)
+        
+        alert.addAction(okAcc)
+        alert.addAction(cancellAcc)
+        
+        present(alert, animated: true)
+    }
+    
     private func showAlert(named string: String, withTask task: Task? = nil, at indexPath: IndexPath? = nil) {
         let alert = AlertController.createAlert(with: string)
         alert.action(with: task, in: viewModel.tasks) {
